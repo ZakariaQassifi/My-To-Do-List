@@ -2,161 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My To Do List - Blue Theme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My To Do List</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header class="top-navbar">
-  <h1><i class="fa-solid fa-square-check"></i> My To Do List</h1>
 
-  <div class="top-icons">
-    <i class="fa-solid fa-moon" onclick="toggleDarkMode()" style="cursor:pointer"></i>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"><i class="fa-solid fa-square-check"></i></span>
+    <h1>My To Do List</h1>
+  </div>
 
-    <i class="fa-solid fa-plus"
-       onclick="showInput()"
-       style="cursor:pointer"
-       title="Add Task"></i>
-    <i class="fa-solid fa-circle-info"></i>
-
-    <i class="fa-solid fa-bell"></i>
+  <div class="topbar-actions">
+    <button class="icon-btn" type="button" onclick="toggleDarkMode()" title="Toggle theme" aria-label="Toggle theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+    <button class="icon-btn" type="button" onclick="showInput()" title="Add task" aria-label="Add task">
+      <i class="fa-solid fa-plus"></i>
+    </button>
   </div>
 </header>
 
-<div class="page-container">
+<div class="layout">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
 
-    <div class="search-container">
-      <div class="search-wrapper">
-        <i class="fa-solid fa-magnifying-glass"></i>
-
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search tasks..."
-          oninput="renderTasks()">
-      </div>
+    <div class="search-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="search"
+        id="search-input"
+        placeholder="Search tasks"
+        aria-label="Search tasks"
+        oninput="renderTasks()" />
     </div>
 
-    <!-- FILTERS -->
-    <div class="nav-item active"
-         id="filter-all"
-         onclick="setFilter('all')">
+    <nav class="nav" aria-label="Task filters">
+      <button class="nav-item active" id="filter-all" type="button" onclick="setFilter('all')">
+        <span class="nav-left">
+          <i class="fa-solid fa-inbox icon-inbox"></i>
+          <span>Inbox</span>
+        </span>
+        <span class="task-count" id="count-all">0</span>
+      </button>
 
-      <div class="nav-left">
-        <i class="fa-solid fa-inbox" style="color:#246fe0"></i>
-        <span>Inbox</span>
-      </div>
+      <button class="nav-item" id="filter-active" type="button" onclick="setFilter('active')">
+        <span class="nav-left">
+          <i class="fa-regular fa-circle-dot icon-active"></i>
+          <span>Not Done</span>
+        </span>
+        <span class="task-count" id="count-active">0</span>
+      </button>
 
-      <div class="task-count" id="count-all">0</div>
-    </div>
+      <button class="nav-item" id="filter-done" type="button" onclick="setFilter('done')">
+        <span class="nav-left">
+          <i class="fa-solid fa-check-double icon-done"></i>
+          <span>Done</span>
+        </span>
+        <span class="task-count" id="count-done">0</span>
+      </button>
+    </nav>
 
-    <div class="nav-item"
-         id="filter-active"
-         onclick="setFilter('active')">
-
-      <div class="nav-left">
-        <i class="fa-regular fa-circle-dot" style="color:#058527"></i>
-        <span>Not Done</span>
-      </div>
-
-      <div class="task-count" id="count-active">0</div>
-    </div>
-
-    <div class="nav-item"
-         id="filter-done"
-         onclick="setFilter('done')">
-
-      <div class="nav-left">
-        <i class="fa-solid fa-check-double" style="color:#692ec2"></i>
-        <span>Done</span>
-      </div>
-
-      <div class="task-count" id="count-done">0</div>
-    </div>
-
-    <!-- FOOTER -->
     <footer class="sidebar-footer">
       <p>Powered by Zakaria Qassifi</p>
-
-      <a href="https://github.com/ZakariaQassifi"
-         target="_blank"
-         class="github-btn">
-
+      <a href="https://github.com/ZakariaQassifi" target="_blank" rel="noopener" class="github-btn">
         <i class="fa-brands fa-github"></i> GitHub
       </a>
     </footer>
   </aside>
 
-  <!-- MAIN -->
-  <main class="main-content">
+  <main class="main">
 
     <div class="header-row">
-      <h1 id="view-title">Inbox</h1>
-
-      <div class="stats" id="stats">
-        0 Tasks
-      </div>
+      <h2 id="view-title">Inbox</h2>
+      <span class="stats" id="stats">0 Tasks</span>
     </div>
 
-    <ul id="task-list"></ul>
+    <ul id="task-list" class="task-list"></ul>
 
-    <!-- ADD BUTTON -->
-    <div class="add-task-trigger"
-         id="add-trigger"
-         onclick="showInput()">
-
-      <i class="fa-solid fa-circle-plus"></i>
+    <button class="add-task-trigger" id="add-trigger" type="button" onclick="showInput()">
+      <i class="fa-solid fa-plus"></i>
       Add task
-    </div>
+    </button>
 
-    <!-- INPUT -->
-    <div class="input-area" id="input-area">
+    <section class="input-area" id="input-area" aria-label="New task">
+      <input type="text" id="task-input" placeholder="What needs to be done?" aria-label="Task name" />
 
-      <input type="text"
-             id="task-input"
-             placeholder="What needs to be done?">
+      <div class="input-row">
+        <input type="date" id="task-deadline" aria-label="Deadline" />
 
-      <input type="date"
-             id="task-deadline">
-
-      <select id="task-priority">
-        <option value="low">Low Priority</option>
-        <option value="medium">Medium Priority</option>
-        <option value="high">High Priority</option>
-      </select>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button
-          style="background:none; border:none; cursor:pointer; color:#666;"
-          onclick="hideInput()">
-
-          Cancel
-        </button>
-
-        <button class="btn-save"
-                onclick="addTask()">
-
-          Add task
-        </button>
+        <select id="task-priority" aria-label="Priority">
+          <option value="low">Low priority</option>
+          <option value="medium">Medium priority</option>
+          <option value="high">High priority</option>
+        </select>
       </div>
-    </div>
 
-    <!-- EMPTY -->
+      <div class="form-actions">
+        <button class="btn btn-ghost" type="button" onclick="hideInput()">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="addTask()">Add task</button>
+      </div>
+    </section>
+
     <div class="empty-state" id="empty-state">
-      <p style="color:#777;">
-        All caught up! No tasks found.
-      </p>
+      <i class="fa-regular fa-note-sticky"></i>
+      <p>All caught up. No tasks found.</p>
     </div>
 
   </main>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
